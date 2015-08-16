@@ -2,3 +2,35 @@ typeattribute rmt_storage rmt_placeholder;
 
 allow rmt_storage kmem_device:chr_file rw_file_perms;
 allow rmt_storage self:capability { sys_rawio };
+allow rmt_storage init_shell:fd use;
+
+#============= logd ==============
+allow logd rmt_storage_exec:dir search;
+allow logd rmt_storage_exec:file { read open };
+
+#============= rmt_storage_exec ==============
+allow rmt_storage_exec block_device:lnk_file read;
+allow rmt_storage_exec init:fd use;
+allow rmt_storage_exec init:process { sigchld };
+allow rmt_storage_exec init_shell:fd use;
+allow rmt_storage_exec kernel:fd use;
+allow rmt_storage_exec kmem_device:chr_file { read write open };
+allow rmt_storage_exec logd:unix_dgram_socket sendto;
+allow rmt_storage_exec logdw_socket:sock_file write;
+allow rmt_storage_exec mmc_block_device:blk_file { read open };
+allow rmt_storage_exec modem_efs_partition_device:blk_file { read write open };
+allow rmt_storage_exec null_device:chr_file { read write getattr };
+allow rmt_storage_exec properties_device:file { read getattr open };
+allow rmt_storage_exec rootfs:lnk_file read;
+allow rmt_storage_exec self:capability { setuid setgid sys_rawio dac_override };
+allow rmt_storage_exec self:file { read entrypoint };
+allow rmt_storage_exec self:process { fork sigchld };
+allow rmt_storage_exec self:socket { read bind create write ioctl };
+allow rmt_storage_exec self:unix_dgram_socket { write create connect };
+allow rmt_storage_exec smem_log_device:chr_file { read write ioctl open };
+allow rmt_storage_exec socket_device:dir search;
+allow rmt_storage_exec sysfs:dir search;
+allow rmt_storage_exec sysfs:file { read open };
+allow rmt_storage_exec sysfs_wake_lock:file { open append };
+allow rmt_storage_exec system_file:dir search;
+allow rmt_storage_exec system_file:file { read open getattr execute };

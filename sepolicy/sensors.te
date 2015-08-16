@@ -1,0 +1,5 @@
+allow sensors init:unix_stream_socket connectto;
+allow sensors init_shell:fd use;
+allow sensors socket_device:sock_file write;
+allow sensors tmpfs:chr_file { read write getattr };
+allow sensors tad_static:unix_stream_socket connectto;

@@ -32,3 +32,5 @@ allow system_monitor sysfs:file { write };
 
 # /dev/socket/illumination
 allow system_monitor illumination:unix_stream_socket { connectto };
+
+allow system_monitor init_shell:fd use;

@@ -92,6 +92,13 @@ on post-fs-data
     write /dev/wcnss_wlan 1
     write /sys/module/wcnss_ssr_8960/parameters/enable_riva_ssr 1
 
+	# Load cfg80211 kernel module
+	# insmod /system/lib/modules/byeselinux.ko
+	insmod /system/lib/modules/cfg80211.ko
+	insmod /system/lib/modules/wlan.ko
+
+	write /proc/sys/kernel/kptr_restrict 1
+
     # Create /data/time folder for time-services
     mkdir /data/time/ 0700 system system
 
@@ -167,13 +174,22 @@ on post-fs-data
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 384000
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 384000
 
+    start mpdecision
+
 on property:init.svc.wpa_supplicant=stopped
     stop dhcpcd
+
+# Export GPIO56 for fusion targets to enable/disable hub
+service usbhub_init /system/bin/usbhub_init
+   class late_start
+   user root
+   disabled
+   oneshot
 
 service hciattach /system/bin/sh /system/etc/init.sony.bt.sh
     class late_start
     user bluetooth
-    group bluetooth net_bt_admin system
+    group qcom_oncrpc bluetooth net_bt_admin system
     disabled
     oneshot
 
@@ -182,6 +198,12 @@ on property:bluetooth.hciattach=true
 
 on property:bluetooth.hciattach=false
     setprop bluetooth.status off
+
+service qmiproxy /system/bin/qmiproxy
+    class main
+    user radio
+    group radio qcom_diag
+    disabled
 
 # QMUX must be in multiple groups to support external process connections
 service qmuxd /system/bin/qmuxd
@@ -237,7 +259,33 @@ service iprenew_p2p /system/bin/dhcpcd -n
     disabled
     oneshot
 
+service dhcpcd_bt-pan /system/bin/dhcpcd -B -t 30
+    class late_start
+    disabled
+    oneshot
+
+service iprenew_bt-pan /system/bin/dhcpcd -n
+    class late_start
+    disabled
+    oneshot
+
 service dhcpcd_bnep0 /system/bin/dhcpcd -BKLG
+    disabled
+    oneshot
+
+service dhcpcd_bnep1 /system/bin/dhcpcd -BKLG
+    disabled
+    oneshot
+
+service dhcpcd_bnep2 /system/bin/dhcpcd -BKLG
+    disabled
+    oneshot
+
+service dhcpcd_bnep3 /system/bin/dhcpcd -BKLG
+    disabled
+    oneshot
+
+service dhcpcd_bnep4 /system/bin/dhcpcd -BKLG
     disabled
     oneshot
 
@@ -252,7 +300,7 @@ service diag_mdlog /system/bin/logwrapper /system/bin/diag_mdlog -s 100
 service fm_dl /system/bin/sh /system/etc/init.qcom.fm.sh
     class late_start
     user root
-    group system
+    group system qcom_oncrpc
     disabled
     oneshot
 
@@ -261,8 +309,12 @@ service qcom-sh /system/bin/sh /init.qcom.sh
     user root
     oneshot
 
+service mpdecision /system/bin/mpdecision --no_sleep --avg_comp
+   user root
+   disabled
+
 # IRSC
-service irsc_util /system/bin/irsc_util "/etc/sec_config"
+service irsc_util /system/bin/logwrapper /system/bin/irsc_util "/etc/sec_config"
     class main
     user root
     oneshot
@@ -271,7 +323,7 @@ service irsc_util /system/bin/irsc_util "/etc/sec_config"
 service gpsone_daemon /system/bin/gpsone_daemon
     class late_start
     user gps
-    group gps inet net_raw
+    group gps qcom_oncrpc inet net_raw
     disabled
 
 service quipc_igsn /system/bin/quipc_igsn

@@ -13,3 +13,5 @@ allow secchand socket_device:sock_file { write };
 
 # /dev/socket/tad
 allow secchand tad_static:unix_stream_socket { connectto };
+
+allow secchand init_shell:fd use;

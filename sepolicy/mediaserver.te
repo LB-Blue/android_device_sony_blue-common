@@ -13,3 +13,6 @@ allow mediaserver system_server:unix_stream_socket { read write };
 
 # /dev/input
 allow mediaserver input_device:dir { search };
+
+allow mediaserver default_prop:property_service set;
+allow mediaserver init_shell:fd use;

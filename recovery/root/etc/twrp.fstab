@@ -1,0 +1,9 @@
+/boot			emmc	/dev/block/platform/msm_sdcc.1/by-name/Kernel	flags=backup=1;canbewiped;display="Kernel Image"
+/ta				emmc	/dev/block/platform/msm_sdcc.1/by-name/TA	flags=backup=1;display="Trim Area"
+/system			ext4	/dev/block/platform/msm_sdcc.1/by-name/System	flags=backup=1;canbewiped;wipeingui;display="System"
+/cache			ext4	/dev/block/platform/msm_sdcc.1/by-name/Cache	flags=backup=1;canbewiped;wipeingui;wipeduringfactoryreset;display="Cache"
+/data			ext4	/dev/block/platform/msm_sdcc.1/by-name/Userdata	flags=backup=1;canbewiped;wipeingui;wipeduringfactoryreset;length=-16384
+
+/sdcard			auto	/dev/block/platform/msm_sdcc.1/by-name/SDCard	flags=storage;display="Internal Storage (SDCard0)"
+/external_sd	auto	/dev/block/mmcblk1p1	/dev/block/mmcblk1	flags=storage;removable;display="External SDCard"
+/usb-otg		auto	/dev/block/sda1					flags=storage;removable;display="USB-OTG Storage"

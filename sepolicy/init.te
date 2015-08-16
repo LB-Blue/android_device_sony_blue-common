@@ -5,3 +5,6 @@ allow init_shell display_prop:property_service set;
 
 # property=ctl.quipc_igsn
 allow init_shell ctl_quipc_prop:property_service set;
+
+allow init rmt_storage_exec:process { siginh rlimitinh transition noatsecure };
+allow init rootfs:file { write create setattr };

@@ -2,8 +2,13 @@
 /dev/kgsl-2d0                       u:object_r:gpu_device:s0
 /dev/kgsl-2d1                       u:object_r:gpu_device:s0
 
+# Modem firmware
+/dev/block/mmcblk0p6                u:object_r:modem_efs_partition_device:s0
+/dev/block/mmcblk0p7                u:object_r:modem_efs_partition_device:s0
+/dev/block/mmcblk0p8                u:object_r:modem_efs_partition_device:s0
+
 # Camera
-/dev/gemini.*                       u:object_r:camera_device:s0
+/dev/gemini0                        u:object_r:camera_device:s0
 /data/etc/flashled_vf_factory       u:object_r:camera_data_file:s0
 
 # Wifi

@@ -44,12 +44,16 @@ on init
 
     symlink /dev/socket /tmp
 
+    chmod 0664 /proc/rdtag
+    chown root system /proc/rdtag
+
 on fs
     chmod 0775 /data/etc
 
     # SONY: Start the TrimArea Daemon. It must be started before fota-ua
     class_start trimarea
     exec /sbin/wait4tad_static
+    exec /sbin/mr
 
     # SONY: Start early TA-users
     exec /system/bin/taimport
@@ -68,13 +72,19 @@ on early-boot
     #Run pre_hw_config.sh before entering charge only mode.
     exec /system/bin/sh /system/etc/pre_hw_config.sh
 
+    # Start secchan daemon service before entering charge only mode.
+    start secchan
+
     # Start the offline charging (This blocks booting further in some cases)
-    exec /system/bin/chargemon
+    exec /system/bin/chargemon.stock
+    exec /system/bin/charger
+
 
     # Touch firmware update
     exec /system/bin/sh /system/etc/clearpad_fwloader.sh
 
 on boot
+    exec /system/bin/taimport property
     exec /system/bin/btnvtool -O
     chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
@@ -92,6 +102,10 @@ on boot
     chmod 0660 /sys/devices/platform/msm_serial_hs.0/clock
 
     setprop ro.telephony.call_ring.multiple false
+
+    #Set SUID bit for usbhub
+    chmod 4755 /system/bin/usbhub
+    chmod 755 /system/bin/usbhub_init
 
     # Owner for the proximity sensor
     chown system system /sys/devices/i2c-12/12-0054/threshold
@@ -138,6 +152,8 @@ on boot
     write /proc/sys/net/ipv6/conf/rmnet_sdio6/accept_ra 2
     write /proc/sys/net/ipv6/conf/rmnet_sdio7/accept_ra 2
 
+    exec /system/bin/cal_data_manager init
+
 on charger
     # Enable Power modes and set the CPU Freq Sampling rates
     write /sys/module/rpm_resources/enable_low_power/L2_cache 1
@@ -171,7 +187,7 @@ service fuse_usbdisk /system/bin/sdcard -u 1023 -g 1023 /mnt/media_rw/usbdisk /s
 service rmt_storage /system/bin/rmt_storage
     class core
     user root
-    group system
+    group root
 
 # Update WIFI MAC address
 service mac-update /system/bin/mac-update
@@ -215,6 +231,11 @@ service hw_config /system/bin/sh /system/etc/hw_config.sh
     user root
     oneshot
 
+service data_on /system/bin/sh /system/etc/data_on.sh
+    class main
+    user root
+    oneshot
+
 service system_monitor /system/bin/system_monitor
     class core
     user root
@@ -237,10 +258,22 @@ service cnd /system/bin/cnd
     class late_start
     socket cnd stream 660 root inet
 
+service ppd /system/bin/mm-pp-daemon
+    class late_start
+    user system
+    socket pps stream 0660 system system graphics
+    group system graphics
+
 service illumination /system/bin/illumination_service
     class main
     user root
     socket illumination stream 0660 root system
+
+on property:init.svc.surfaceflinger=running
+    start ppd
+
+on property:init.svc.surfaceflinger=stopped
+    stop ppd
 
 # Time daemon
 service time_daemon /system/bin/time_daemon
@@ -259,4 +292,4 @@ service wcnss-service /system/bin/wcnss_service
 service gsiff_daemon /system/bin/gsiff_daemon
     class late_start
     user system
-    group gps net_raw
+    group gps qcom_oncrpc net_raw

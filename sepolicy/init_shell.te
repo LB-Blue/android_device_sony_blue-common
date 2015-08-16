@@ -1,0 +1,106 @@
+#============= adbd ==============
+allow adbd init_shell:fd use;
+
+#============= debuggerd ==============
+allow debuggerd init_shell:fd use;
+
+#============= drmserver ==============
+allow drmserver init_shell:fd use;
+
+#============= healthd ==============
+allow healthd init_shell:fd use;
+
+#============= installd ==============
+allow installd init_shell:fd use;
+
+#============= irsc_util ==============
+allow irsc_util init_shell:fd use;
+
+#============= keystore ==============
+allow keystore init_shell:fd use;
+
+#============= lmkd ==============
+allow lmkd init_shell:fd use;
+
+#============= location ==============
+allow location init_shell:fd use;
+
+#============= logd ==============
+allow logd init_shell:fd use;
+
+#============= netd ==============
+allow netd init_shell:fd use;
+
+#============= netmgrd ==============
+allow netmgrd init_shell:fd use;
+
+#============= qmuxd ==============
+allow qmuxd init_shell:fd use;
+
+#============= rild ==============
+allow rild init_shell:fd use;
+
+#============= servicemanager ==============
+allow servicemanager init_shell:fd use;
+
+#============= shell ==============
+allow shell init_shell:fd use;
+
+#============= sysinit ==============
+allow sysinit init_shell:fd use;
+
+#============= tee ==============
+allow tee init_shell:fd use;
+
+#============= time_daemon ==============
+allow time_daemon init_shell:fd use;
+
+#============= ueventd ==============
+allow ueventd init_shell:fd use;
+
+#============= vold ==============
+allow vold init_shell:fd use;
+
+#============= zygote ==============
+allow zygote init_shell:fd use;
+
+#============= init_shell ==============
+allow init_shell alarm_device:chr_file write;
+allow init_shell debug_prop:property_service set;
+allow init_shell device:dir relabelto;
+allow init_shell graphics_device:dir { write add_name };
+allow init_shell graphics_device:lnk_file create;
+allow init_shell init:dir search;
+allow init_shell init:file { write open };
+allow init_shell init:process dyntransition;
+#allow init_shell kernel:security { setenforce setcheckreqprot };
+allow init_shell init:unix_stream_socket connectto;
+allow init_shell properties_device:file relabelto;
+allow init_shell property_socket:sock_file write;
+allow init_shell rtc_device:chr_file { read write ioctl open };
+allow init_shell self:capability { chown fsetid sys_time dac_override fowner sys_resource };
+allow init_shell self:process setcurrent;
+allow init_shell selinuxfs:file write;
+allow init_shell socket_device:dir relabelto;
+allow init_shell socket_device:sock_file write;
+allow init_shell sysfs:dir relabelfrom;
+allow init_shell sysfs:file { relabelfrom write setattr };
+allow init_shell sysfs:lnk_file relabelfrom;
+allow init_shell sysfs_devices_system_cpu:dir relabelto;
+allow init_shell sysfs_devices_system_cpu:file relabelto;
+allow init_shell sysfs_devices_system_cpu:lnk_file relabelto;
+allow init_shell sysfs_graphics:file { read getattr open setattr relabelto };
+allow init_shell sysfs_lowmemorykiller:file relabelto;
+allow init_shell sysfs_mpdecision:file relabelto;
+allow init_shell sysfs_msmuart_file:file relabelto;
+allow init_shell sysfs_rmnet:file relabelto;
+allow init_shell sysfs_rqstats:dir { read relabelto search open };
+allow init_shell sysfs_smd_open_timeout:file relabelto;
+allow init_shell sysfs_thermal:dir { read relabelto open search };
+allow init_shell sysfs_thermal:file relabelto;
+allow init_shell sysfs_thermal:lnk_file relabelto;
+allow init_shell sysfs_wake_lock:file relabelto;
+allow init_shell tmpfs:chr_file { read write getattr ioctl };
+allow init_shell tmpfs:dir relabelfrom;
+allow init_shell tmpfs:file relabelfrom;
+allow init_shell usermodehelper:file relabelto;

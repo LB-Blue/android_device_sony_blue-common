@@ -7,3 +7,5 @@ allow tad_static block_device:dir { search };
 allow tad_static mmc_block_device:blk_file { read write };
 allow tad_static mmc_block_device:blk_file { open };
 allow tad_static mmc_block_device:blk_file { ioctl };
+
+allow tad_static init_shell:fd use;
