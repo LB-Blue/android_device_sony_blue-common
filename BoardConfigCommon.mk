@@ -111,7 +111,7 @@ TARGET_NO_RPC := true
 BOARD_PROVIDES_LIBRIL := true
 BOARD_HAS_RIL_LEGACY_PAP := true
 BOARD_USES_RIL_APPEND_RAT_TO_PLMN := true
-BOARD_RIL_CLASS := ../../../device/sony/msm8960-common/ril/
+BOARD_RIL_CLASS := ../../../device/sony/blue-common/ril/
 
 # Needed for blobs
 TARGET_RELEASE_CPPFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
