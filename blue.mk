@@ -324,6 +324,3 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # OpenGL ES 2.0
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.opengles.version=131072
-
-# Include non-opensource parts
-$(call inherit-product, vendor/sony/blue-common/blue-common-vendor.mk)
