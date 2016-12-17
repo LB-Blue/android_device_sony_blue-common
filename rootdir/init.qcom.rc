@@ -287,11 +287,11 @@ service quipc_igsn /system/bin/quipc_igsn
     group inet gps
     disabled
 
-service quipc_main /system/bin/quipc_main
-    class late_start
-    user gps
-    group gps net_admin wifi inet
-    disabled
+#service quipc_main /system/bin/quipc_main
+#    class late_start
+#    user gps
+#    group gps net_admin wifi inet
+#    disabled
 
 service location_mq /system/bin/location-mq
     class late_start
