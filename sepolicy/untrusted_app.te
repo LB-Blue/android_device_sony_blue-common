@@ -1,0 +1,1 @@
+allow untrusted_app device:dir { read open };

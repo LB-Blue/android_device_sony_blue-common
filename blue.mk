@@ -89,7 +89,8 @@ PRODUCT_COPY_FILES += \
 
 # GPS
 PRODUCT_COPY_FILES += \
-   $(COMMON_PATH)/rootdir/system/etc/gps.conf:system/etc/gps.conf
+   $(COMMON_PATH)/rootdir/system/etc/gps.conf:system/etc/gps.conf \
+   $(COMMON_PATH)/rootdir/system/etc/quipc.conf:system/etc/quipc.conf
 
 # WPA supplicant config
 PRODUCT_COPY_FILES += \

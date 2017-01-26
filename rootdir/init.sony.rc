@@ -261,7 +261,7 @@ service wcnss-service /system/bin/wcnss_service
     oneshot
 
 # start GNSS/Sensor interface daemon
-#service gsiff_daemon /system/bin/gsiff_daemon
-#    class late_start
-#    user system
-#    group gps net_raw
+service gsiff_daemon /system/bin/gsiff_daemon
+    class late_start
+    user system
+    group gps net_raw

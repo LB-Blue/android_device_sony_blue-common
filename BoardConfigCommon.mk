@@ -167,6 +167,7 @@ BOARD_SEPOLICY_UNION += \
     illumination.te \
     init.te \
     init_shell.te \
+	location.te \
     mac_update.te \
     mediaserver.te \
     mpdecision.te \
@@ -182,7 +183,9 @@ BOARD_SEPOLICY_UNION += \
     system_server.te \
     tad_static.te \
     ta_qmi_service.te \
-    updatemiscta.te
+    updatemiscta.te \
+	untrusted_app.te \
+	vold.te
 
 # inherit from the proprietary version
 -include vendor/sony/blue-common/BoardConfigVendor.mk
